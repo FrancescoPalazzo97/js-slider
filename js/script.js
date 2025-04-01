@@ -64,8 +64,10 @@ const renderImages = (array) => {
 // funzione che mi manda avanti le immagini da vedere
 const nextImage = () => {
   // rimuovo la classe active dall'elemento attualmente attivo
-  images[activeImage].classList.remove('active');
-  thumbnail[activeImage].classList.remove(`on-focus`)
+  for (i = 0; i < images.length; i++) {
+    images[i].classList.remove('active');
+    thumbnail[i].classList.remove('on-focus');
+  }
 
   // incremento il valore del cursore
   activeImage++;
@@ -100,6 +102,8 @@ const previousImage = () => {
 
 const changeImage = (index) => {
 
+  clearInterval(intervalId)
+
   for (i = 0; i < images.length; i++) {
     images[i].classList.remove('active');
     thumbnail[i].classList.remove('on-focus');
@@ -107,6 +111,8 @@ const changeImage = (index) => {
 
   images[index].classList.add('active');
   thumbnail[index].classList.add('on-focus');
+
+  intervalId = setInterval(nextImage, 2000);
 
 }
 
