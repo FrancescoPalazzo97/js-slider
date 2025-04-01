@@ -45,6 +45,16 @@ const createImage = (galleryImage) => {
 
 }
 
+const createGallery = (i) => {
+
+  let col = `<div class="col-20">
+                <img src="./img/0${i + 1}.jpg" alt="">
+            </div>`
+
+  return col
+
+}
+
 //   definizione della funzione che va a ciclare l'array ed a creare le immagini a partire da questo nell'html
 const renderImages = (array) => {
 
@@ -59,6 +69,18 @@ const renderImages = (array) => {
   }
 
   gallery.innerHTML = images;
+}
+
+const renderGallery = (array) => {
+
+  let cols = '';
+
+  for (let i = 0; i < array.length; i++) {
+    cols += createGallery(i);
+  }
+
+  document.getElementById(`thumbnails`).innerHTML = cols
+
 }
 
 // funzione che mi manda avanti le immagini da vedere
@@ -102,8 +124,6 @@ const previousImage = () => {
 
 const changeImage = (index) => {
 
-  clearInterval(intervalId)
-
   for (i = 0; i < images.length; i++) {
     images[i].classList.remove('active');
     thumbnail[i].classList.remove('on-focus');
@@ -112,7 +132,8 @@ const changeImage = (index) => {
   images[index].classList.add('active');
   thumbnail[index].classList.add('on-focus');
 
-  intervalId = setInterval(nextImage, 2000);
+  clearInterval(intervalId)
+  // intervalId = setInterval(nextImage, 2000);
 
 }
 
@@ -120,9 +141,11 @@ const changeImage = (index) => {
 
 // siamo andati a renderizzare tutte le immagini
 renderImages(pics);
+renderGallery(pics);
 
 // definisco il valore inziale del mio indice
 let activeImage = 0;
+let onFocus = 0;
 // // vado a prendere tutte le immagini dal dom
 const images = document.querySelectorAll('#carousel figure');
 // aggiungo all'elemento con indice 0 dell'array images la classe active
@@ -141,6 +164,7 @@ const intervalId = setInterval(nextImage, 2000);
 
 const thumbnail = document.querySelectorAll(`#thumbnails img`);
 console.log(thumbnail)
+thumbnail[onFocus].classList.add('on-focus');
 
 for (let i = 0; i < thumbnail.length; i++) {
   thumbnail[i].addEventListener(`click`, function () {
